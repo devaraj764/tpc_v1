@@ -9,16 +9,24 @@ const StudentSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    class: {
+    email: {
         type: String,
         required: true
     },
-    branch: {
+    dob: {
+        type: String,
+        required: true
+    },
+    class: {
         type: String,
         required: true
     },
     batch: {
         type: Number,
+        required: true
+    },
+    yearofStudy: {
+        type: String,
         required: true
     },
     address: {
