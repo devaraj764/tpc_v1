@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const Student = require('../model/Student.js');
 const router = express.Router();
 const Joi = require('@hapi/joi');
+const cors = require('cors');
 
 
 // VALIDATION SCHEMA
@@ -26,8 +27,7 @@ router.post('/login', async (req, res) => {
         if (!valPass) res.status(400).json({ success: false, error: 'Invalid password' })
 
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
-        res.status(400).setHeader('auth-token', token).json({ success: true, message: `welcome back ${req.body.idNo}`, token: token })
-
+        res.status(200).setHeader('auth-token', token).json({ success: true, message: `welcome back ${req.body.idNo}`, token: token })
     } catch (err) { res.status(400).json({ success: false, error: "Error perfoming action" }) }
 
 })
@@ -53,10 +53,12 @@ router.post('/register', async (req, res) => {
     const user = new schema({
         name: req.body.name,
         idNo: req.body.idNo.toUpperCase(),
+        email: req.body.email,
         class: req.body.class,
-        branch: req.body.branch,
         batch: req.body.batch,
+        yearofStudy: req.body.yearofStudy,
         address: req.body.address,
+        dob: req.body.dob,
         contactNumber: req.body.contactNumber,
         password: hashedPass
     });
