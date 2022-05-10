@@ -18,7 +18,7 @@ router.post('/login', async (req, res) => {
 
     // Checking if the username already exists
     try {
-        const user = await Student.findOne({ idNo: req.body.idNo.toUpperCase() });
+        const user = await schema.findOne({ idNo: req.body.idNo.toUpperCase() });
         if (!user) return res.status(400).json({ success: false, error: `Enter valid credentials` });
 
         // checking the password is valid
@@ -26,7 +26,7 @@ router.post('/login', async (req, res) => {
         if (!valPass) res.status(400).json({ success: false, error: 'Invalid password' })
 
         const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
-        res.status(400).header('auth-token', token).json({ success: true, message: `welcome back ${req.body.idNo}`, token: token })
+        res.status(400).setHeader('auth-token', token).json({ success: true, message: `welcome back ${req.body.idNo}`, token: token })
 
     } catch (err) { res.status(400).json({ success: false, error: "Error perfoming action" }) }
 
@@ -41,16 +41,16 @@ router.post('/register', async (req, res) => {
 
     // Checking if the username already exists
     try {
-        const isUser = await Student.findOne({ idNo: req.body.idNo.toUpperCase() });
+        const isUser = await schema.findOne({ idNo: req.body.idNo.toUpperCase() });
         if (isUser) return res.status(400).json({ success: false, error: `${req.body.idNo} had already been taken` });
-    } catch (err) { res.status(400).json({ success: false, error: err }) }
+    } catch (err) { res.status(400).json({ success: false, error: "error finding user" }) }
 
     // Hashing password
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(req.body.password, salt);
 
     // creating new User
-    const user = new Student({
+    const user = new schema({
         name: req.body.name,
         idNo: req.body.idNo.toUpperCase(),
         class: req.body.class,
@@ -64,7 +64,7 @@ router.post('/register', async (req, res) => {
         await user.save();
         res.status(200).json({ success: true, message: 'Account created successfully' });
 
-    } catch (err) { res.status(400).json({ success: false, error: err }) }
+    } catch (err) { res.status(400).json({ success: false, error: "Err" }) }
 })
 
 module.exports = router;

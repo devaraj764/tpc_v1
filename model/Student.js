@@ -75,6 +75,6 @@ const StudentSchema = mongoose.Schema({
         }
     }
 },
-    { collection: 'students', createdAt: new Date(), updatedAt: new Date() });
+    { collection: 'students', timestamps: true },);
 
 module.exports = mongoose.model('Student', StudentSchema);

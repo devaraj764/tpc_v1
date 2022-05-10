@@ -9,12 +9,12 @@ const app = express();
 app.use(bodyParser.json());
 
 // import routes
+const auth = require('./routes/auth.route.js');
 const studentsRoute = require('./routes/students.route.js');
-const auth = require('./routes/auth.route.js')
 
 // middleware
 app.use('/', auth);
-app.use('/student', studentsRoute);
+app.use('/students', studentsRoute);
 // app.use(cors());
 
 // Routes
@@ -23,12 +23,18 @@ app.get('/', (req, res) => {
 });
 
 // connect to db
-mongoose.connect(
-    process.env.DB_CONNECTION,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    () => {
-         console.log('connected to DB');
-    });
+try {
+    // Connect to the MongoDB cluster
+    mongoose.connect(
+        process.env.DB_CONNECTION,
+        { useNewUrlParser: true, useUnifiedTopology: true },
+        () => console.log(" Mongoose is connected")
+    );
+
+} catch (e) {
+    console.log("could not connect");
+}
+
 
 // listening to server
 app.listen(process.env.PORT || 3000, () => {
