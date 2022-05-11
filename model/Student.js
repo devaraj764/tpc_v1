@@ -17,7 +17,7 @@ const StudentSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    class: {
+    section: {
         type: String,
         required: true
     },
@@ -60,29 +60,31 @@ const StudentSchema = mongoose.Schema({
     schooling: {
         type: Object,
         default: {
-            name: { type: String },
-            cgpa: { type: mongoose.Types.Decimal128 },
-            loc: { type: String }
+            name: "",
+            cgpa: "",
+            loc: "",
+            passout: "",
         }
     },
     preGraduation: {
         type: Object,
         default: {
-            name: { type: String },
-            cgpa: { type: mongoose.Types.Decimal128 },
-            loc: { type: String }
+            name: "",
+            cgpa: "",
+            loc: "",
+            passout: "",
         }
     },
-    collage: {
+    graduation: {
         type: Object,
         default: {
-            name: { type: String },
-            cgpa: { type: mongoose.Types.Decimal128 },
-            loc: { type: String },
-            yearofStudy: { type: Number }
+            name: "",
+            cgpa: "",
+            passout: "",
+            loc: "",
         }
     }
 },
-    { collection: 'students', timestamps: true },);
+    { collection: 'students', timestamps: true });
 
 module.exports = mongoose.model('Student', StudentSchema);

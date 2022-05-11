@@ -46,7 +46,7 @@ router.post('/register', async (req, res) => {
         name: req.body.name,
         idNo: req.body.idNo.toUpperCase(),
         email: req.body.email,
-        class: req.body.class,
+        section: req.body.section,
         batch: req.body.batch,
         yearofStudy: req.body.yearofStudy,
         address: req.body.address,

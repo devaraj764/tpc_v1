@@ -16,10 +16,12 @@ router.get('/', verify, async (req, res) => {
     }
 })
 
-router.get('/:idNo', verify, async (req, res) => {
-
+router.get('/mydata', verify, async (req, res) => {
+    // get id from token
+    const token = req.header('auth-token');
+    const data = jwt.verify(token, process.env.TOKEN_SECRET);
     try {
-        const posts = await Student.findOne({ idNo: req.params.idNo });
+        const posts = await Student.findOne({ idNo: data.idNo });
         res.json(posts);
         console.log(posts)
     } catch (err) {
@@ -33,7 +35,7 @@ router.patch('/', verify, async (req, res) => {
 
     // get id from token
     const token = req.header('auth-token');
-    const data =  jwt.verify(token, process.env.TOKEN_SECRET);
+    const data = jwt.verify(token, process.env.TOKEN_SECRET);
 
     try {
         const updatePost = await Student.updateOne({ idNo: data.idNo.toUpperCase() },
