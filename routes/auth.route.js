@@ -13,10 +13,6 @@ const schema = Student;
 
 // signIn user
 router.post('/login', async (req, res) => {
-    // validating data before saving
-    // const { error } = Joi.validate(req.body, schema);
-    // if (error) return res.status(400).json({ success: false, error: error.details[0].message })
-
     // Checking if the username already exists
     try {
         const user = await schema.findOne({ idNo: req.body.idNo.toUpperCase() });
@@ -24,21 +20,17 @@ router.post('/login', async (req, res) => {
 
         // checking the password is valid
         const valPass = await bcrypt.compare(req.body.password, user.password);
-        if (!valPass) res.status(400).json({ success: false, error: 'Invalid password' })
+        if (!valPass) return res.status(400).json({ success: false, error: 'Invalid password' })
 
-        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
-        res.status(200).setHeader('auth-token', token).json({ success: true, message: `welcome back ${req.body.idNo}`, token: token })
-    } catch (err) { res.status(400).json({ success: false, error: "Error perfoming action" }) }
+        const token = jwt.sign({ idNo: user.idNo }, process.env.TOKEN_SECRET);
+        res.setHeader('auth-token', token);
+        return res.status(200).send({ success: true, message: `welcome back ${req.body.idNo}`, token: token })
+    } catch (err) { console.log(err) }
 
 })
 
 // signUp users
 router.post('/register', async (req, res) => {
-
-    // validating data before saving
-    // const { error } = Joi.validate(req.body, schema);
-    // if (error) return res.status(400).json({ success: false, error: error.details[0].message })
-
     // Checking if the username already exists
     try {
         const isUser = await schema.findOne({ idNo: req.body.idNo.toUpperCase() });
@@ -64,7 +56,9 @@ router.post('/register', async (req, res) => {
     });
     try {
         await user.save();
-        res.status(200).json({ success: true, message: 'Account created successfully' });
+        const token = jwt.sign({ idNo: user.idNo }, process.env.TOKEN_SECRET);
+        res.setHeader('auth-token', token);
+        return res.status(200).send({ success: true, message: `Account Created Successfully`, token: token })
 
     } catch (err) { res.status(400).json({ success: false, error: "Err" }) }
 })
