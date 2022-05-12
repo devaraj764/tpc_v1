@@ -31,7 +31,7 @@ router.patch('/', verify, async (req, res) => {
 
     try {
         const updatePost = await Student.updateOne({ idNo: req.userid.toUpperCase() },
-            { $set: { ...req.body } });
+            { $set: req.body });
         res.status(200).json(updatePost)
     } catch (err) {
         res.status(400).json({ message: err })
@@ -60,7 +60,7 @@ router.get('/notifications', verify, async (req, res) => {
     if (!req.userid) return res.status(401).send({ success: false, message: 'Unauthorized Request' });
     try {
         const posts = await Notification.find();
-        res.status(200).json({success: true, message: posts});
+        res.status(200).json({ success: true, message: posts });
     } catch (err) {
         res.status(400).json({ message: err });
     }
@@ -80,7 +80,7 @@ router.post('/notifications', verify, async (req, res) => {
 
     try {
         await data.save();
-        res.status(200).json({ success:true, message: 'Posted successfully' });
+        res.status(200).json({ success: true, message: 'Posted successfully' });
     } catch (err) {
         res.status(400).json({ message: err });
     }
