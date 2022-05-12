@@ -58,7 +58,7 @@ const StudentSchema = mongoose.Schema({
             },
             {
                 subjects: {
-                    type: Obje,
+                    type: Object,
                     default: {
                         OS: {
                             type: Object,
