@@ -31,7 +31,11 @@ try {
     mongoose.connect(
         process.env.DB_CONNECTION,
         { useNewUrlParser: true, useUnifiedTopology: true },
-        () => console.log(" Mongoose is connected")
+        (err) => {
+            if (err) {
+                console.log(err);
+            } else { console.log("Connected to MongoDB") }
+        }
     );
 
 } catch (e) {
