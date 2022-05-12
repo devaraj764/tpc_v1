@@ -83,6 +83,10 @@ const StudentSchema = mongoose.Schema({
             passout: "",
             loc: "",
         }
+    },
+    links: {
+        type: Array,
+        default: []
     }
 },
     { collection: 'students', timestamps: true });

@@ -61,6 +61,74 @@ router.post('/register', async (req, res) => {
         return res.status(200).send({ success: true, message: `Account Created Successfully`, token: token })
 
     } catch (err) { res.status(400).json({ success: false, error: "Err" }) }
-})
+});
+
+
+router.post('/forgot-password', async (req, res) => {
+    const { idNo } = req.body;
+    // check if user exiists
+    var isUser;
+    try {
+        isUser = await Student.findOne({ idNo: idNo.toUpperCase() });
+    } catch (err) { res.status(400).send({ success: false, message: err.message }) }
+
+    if (isUser) {
+        const secret = process.env.TOKEN_SECRET + isUser.password;
+        const token = jwt.sign({ idNo: isUser.idNo }, secret, { expiresIn: '60s' });
+        res.status(200).send({ success: true, message: `http://localhost:3000/reset-password/${isUser.idNo}/${token}` });
+    } else {
+        res.status(401).send({ success: false, message: "User does not exist" })
+    }
+});
+
+router.get('/reset-password/:idNo/:token', async (req, res) => {
+    const idNo = req.params.idNo;
+    const token = req.params.token;
+
+    var isUser;
+    try {
+        isUser = await Student.findOne({ idNo: idNo.toUpperCase() });
+    } catch (err) { res.status(400).send({ success: false, message: err.message }) }
+
+    if (isUser) {
+        const secret = process.env.TOKEN_SECRET + isUser.password;
+        try {
+            const verify = jwt.verify(token, secret);
+            res.render('reset-password', { idNo: verify.idNo })
+        } catch (err) { res.status(400).send({ success: false, message: err.message }) }
+
+    } else {
+        res.status(401).send({ success: false, message: "User does not exist" })
+    }
+});
+
+router.post('/reset-password/:idNo/:token', async (req, res) => {
+    const { idNo, token } = req.params;
+    const { password, password1 } = req.body
+    var isUser;
+    try {
+        isUser = await Student.findOne({ idNo: idNo.toUpperCase() });
+    } catch (err) { res.status(400).send({ success: false, message: err.message }) }
+
+    if (!isUser) return res.status(401).send({ success: false, message: "User does not exist" })
+
+    const secret = process.env.TOKEN_SECRET + isUser.password;
+    try {
+        const verify = jwt.verify(token, secret);
+        if (password !== password1) return res.status(401).send({ success: false, message: "confirm password doesn't match to password" });
+
+        // Hashing password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPass = await bcrypt.hash(password, salt);
+
+
+        await Student.updateOne({ idNo: verify.idNo.toUpperCase() },
+            { $set: { password: hashedPass } });
+
+        res.status(200).send({ success: true, message: "Password reset successfull" })
+    } catch (err) { res.status(400).send({ success: false, message: err.message }) }
+
+
+});
 
 module.exports = router;

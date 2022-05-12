@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
 
     try {
         const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-        req.userid = verified;
+        req.userid = verified.idNo;
         next()
     } catch (err) { res.status(400).send('Invalid Token') }
 }

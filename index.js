@@ -4,9 +4,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv/config');
 
+
 // running express
 const app = express();
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
 
 // import routes
 const auth = require('./routes/auth.route.js');
