@@ -75,12 +75,12 @@ router.post('/forgot-password', async (req, res) => {
 
     if (isUser) {
         const secret = process.env.TOKEN_SECRET + isUser.password;
-        const token = jwt.sign({ idNo: isUser.idNo }, secret, { expiresIn: '90s' });
+        const token = jwt.sign({ idNo: isUser.idNo }, secret, { expiresIn: '10m' });
         const mail = sendMail(isUser.email, `${URI}/reset-password/${isUser.idNo}/${token}`);
-        if(mail){
+        if (mail) {
             res.status(200).send({ success: true, message: 'Check your registered mail' });
-        }else{
-            res.status(400).send({ success: false, message: 'Error sending email'})
+        } else {
+            res.status(400).send({ success: false, message: 'Error sending email' })
         }
     } else {
         res.status(401).send({ success: false, message: "User does not exist" })
@@ -131,7 +131,7 @@ router.post('/reset-password/:idNo/:token', async (req, res) => {
         await Student.updateOne({ idNo: verify.idNo.toUpperCase() },
             { $set: { password: hashedPass } });
 
-        res.status(200).send({ success: true, message: "Password reset successfull" })
+        res.status(200).send("<h1>Password Reset successfull</h1>")
     } catch (err) { res.status(400).send({ success: false, message: err.message }) }
 
 
