@@ -25,7 +25,7 @@ app.use('/students', studentsRoute);
 
 // Routes
 app.get('/', (req, res) => {
-    res.json("Hello world");
+    res.json("Hello world!!!");
 });
 
 // connect to db
