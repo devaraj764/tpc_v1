@@ -14,7 +14,7 @@ const sendMail = async(email, url) => {
         from: "mdevaraju764@gmail.com",
         to: email,
         subject: "Password Reset",
-        text: `<h4>Reset your password</h4><br/><p>Valid only for 90seconds</p><br/><a href=${url}>Click here</a>`
+        html: `<h4>Reset your password</h4><br/><p>Valid only for 90seconds</p><br/><a href="${url}">Click here</a>`
     }
 
     try{
