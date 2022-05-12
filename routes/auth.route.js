@@ -61,7 +61,7 @@ router.post('/register', async (req, res) => {
         res.setHeader('auth-token', token);
         return res.status(200).send({ success: true, message: `Account Created Successfully`, token: token })
 
-    } catch (err) { res.status(400).json({ success: false, error: "Err" }) }
+    } catch (err) { res.status(400).json({ success: false, error: err.message }) }
 });
 
 

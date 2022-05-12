@@ -1,4 +1,3 @@
-const object = require('@hapi/joi/lib/types/object');
 const mongoose = require('mongoose');
 
 const StudentSchema = mongoose.Schema({
@@ -43,128 +42,12 @@ const StudentSchema = mongoose.Schema({
         required: true
     },
     hardSkills: {
-        type: Object,
-        default: [
-            {
-                programmingLanguages: {
-                    type: Object,
-                    default: {
-                        java: "beginner",
-                        c: "beginner",
-                        cpp: "beginner",
-                        python: "beginner",
-                    }
-                },
-            },
-            {
-                subjects: {
-                    type: Object,
-                    default: {
-                        OS: {
-                            type: Object,
-                            default: {
-                                topics: "",
-                                level: "beginner"
-                            }
-                        },
-                        CN: {
-                            type: Object,
-                            default: {
-                                topics: "",
-                                level: "beginner"
-                            }
-                        },
-                        CD: {
-                            type: Object,
-                            default: {
-                                topics: "",
-                                level: "beginner"
-                            }
-                        },
-                        DM: {
-                            type: Object,
-                            default: {
-                                topics: "",
-                                level: "beginner"
-                            }
-                        },
-                    }
-                }
-            },
-            {
-                technologies: {
-                    type: Object,
-                    default: {
-                        WebDev: {
-                            type: Object,
-                            default: {
-                                tools: [],
-                                level: "beginner"
-                            }
-                        },
-                        MobileDev: {
-                            type: Object,
-                            default: {
-                                tools: [],
-                                level: "beginner"
-                            }
-                        },
-                        DataScience: {
-                            type: Object,
-                            default: {
-                                tools: [],
-                                level: "beginner"
-                            }
-                        }
-                    }
-                }
-            }
-        ]
+        type: Array,
+        default: []
     },
     softSkills: {
-        type: Object,
-        default: [
-            {
-                languages: {
-                    type: Object,
-                    default: {
-                        english: {
-                            type: Object,
-                            default: {
-                                reading: "beginner",
-                                writing: "beginner",
-                                speaking: "beginner"
-                            }
-                        },
-                        telugu: {
-                            type: Object,
-                            default: {
-                                reading: "beginner",
-                                writing: "beginner",
-                                speaking: "beginner"
-                            }
-                        },
-                        hindi: {
-                            type: Object,
-                            default: {
-                                reading: "beginner",
-                                writing: "beginner",
-                                speaking: "beginner"
-                            }
-                        },
-                    }
-                }
-            },
-            {
-                decisonmaking: "beginner",
-            },
-            {
-                leadershipSKills: "beginner",
-            },
-            {
-                problemSolvingSkills: "beginner",
-            }
-        ]
+        type: Array,
+        default: []
     },
     schooling: {
         type: Object,
