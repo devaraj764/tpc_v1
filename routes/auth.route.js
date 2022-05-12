@@ -4,8 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Student = require('../model/Student.js');
 const router = express.Router();
-const Joi = require('@hapi/joi');
-const cors = require('cors');
+const sendMail = require('../send-mail.js')
 
 // URI
 const URI = 'https://tpcv1.herokuapp.com/';
@@ -76,8 +75,13 @@ router.post('/forgot-password', async (req, res) => {
 
     if (isUser) {
         const secret = process.env.TOKEN_SECRET + isUser.password;
-        const token = jwt.sign({ idNo: isUser.idNo }, secret, { expiresIn: '60s' });
-        res.status(200).send({ success: true, message: `${URI}/reset-password/${isUser.idNo}/${token}` });
+        const token = jwt.sign({ idNo: isUser.idNo }, secret, { expiresIn: '90s' });
+        const mail = sendMail(isUser.email, `${URI}/reset-password/${isUser.idNo}/${token}`);
+        if(mail){
+            res.status(200).send({ success: true, message: 'Check your registered mail' });
+        }else{
+            res.status(400).send({ success: false, message: 'Error sending email'})
+        }
     } else {
         res.status(401).send({ success: false, message: "User does not exist" })
     }

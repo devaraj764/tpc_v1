@@ -8,17 +8,22 @@ let mailTransporter = nodemailer.createTransport({
     }
 });
 
-let details = {
-    from: "mdevaraju764@gmail.com",
-    to: "s170703@rguktsklm.ac.in",
-    subject: "Test mail Nodemailer",
-    text: "Test mail Nodemailer Successfull"
+const sendMail = async(email, url) => {
+
+    let details = {
+        from: "mdevaraju764@gmail.com",
+        to: email,
+        subject: "Password Reset",
+        text: `<h4>Reset your password</h4><br/><p>Valid only for 90seconds</p><br/><a href=${url}>Click here</a>`
+    }
+
+    try{
+        await mailTransporter.sendMail(details);
+        return true;
+    }catch(err){
+        console.log(err)
+        return false;
+    }
 }
 
-mailTransporter.sendMail(details, (err) => {
-    if(err){
-        console.log(err.message);
-    }else{
-        console.log("Mail sent successfully")
-    }
-});
+module.exports = sendMail;
