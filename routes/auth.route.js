@@ -7,7 +7,7 @@ const router = express.Router();
 const sendMail = require('../send-mail.js')
 
 // URI
-const URI = 'https://tpcv1.herokuapp.com';
+const URI = 'https://tpcapi.herokuapp.com';
 
 // VALIDATION SCHEMA
 const schema = Student;
