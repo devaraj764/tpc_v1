@@ -76,6 +76,30 @@ const StudentSchema = mongoose.Schema({
             loc: "",
         }
     },
+    bio: {
+        type: String,
+        default: ""
+    },
+    hobbies: {
+        type: Array,
+        default: []
+    },
+    projects: {
+        type: Array,
+        default: []
+    },
+    internships: {
+        type: Array,
+        default: []
+    },
+    certifications: {
+        type: Array,
+        default: []
+    },
+    achievements: {
+        type: Array,
+        default: []
+    },
     links: {
         type: Array,
         default: []
