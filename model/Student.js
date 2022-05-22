@@ -76,7 +76,6 @@ const StudentSchema = mongoose.Schema({
         default: {
             name: "",
             cgpa: Object,
-            passout: "",
             loc: "",
         }
     },
