@@ -7,7 +7,7 @@ const router = express.Router();
 const sendMail = require('../send-mail.js')
 
 // URI
-const URI = 'https://tpcapi.herokuapp.com';
+const URI = 'https://tpc-api.loca.lt';
 
 // VALIDATION SCHEMA
 const schema = Student;
@@ -72,7 +72,7 @@ router.post('/forgot-password', async (req, res) => {
             res.status(400).send({ success: false, message: 'Error sending email' })
         }
     } else {
-        res.status(401).send({ success: false, message: "User does not exist" })
+        res.status(400).send({ success: false, message: "User does not exist" })
     }
 });
 
