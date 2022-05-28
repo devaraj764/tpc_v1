@@ -72,7 +72,7 @@ router.post('/forgot-password', async (req, res) => {
             res.status(400).send({ success: false, message: 'Error sending email' })
         }
     } else {
-        res.status(400).send({ success: false, message: "User does not exist" })
+        res.status(401).send({ success: false, message: "User does not exist" })
     }
 });
 

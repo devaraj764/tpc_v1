@@ -9,6 +9,7 @@ require('dotenv/config');
 const app = express();
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(__dirname + '/uploads'))
 app.set('view engine', 'ejs');
 
 // import routes
@@ -48,6 +49,6 @@ try {
 
 // listening to server
 app.listen(process.env.PORT || 80, () => {
-    console.log("listning on port 80");
+    console.log(`listening on http://localhost`);
 });
 

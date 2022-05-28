@@ -41,9 +41,9 @@ const StudentSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    profilePicture: {
+    imageUrl: {
         type: String,
-        default: ""
+        default: null
     },
     hardSkills: {
         type: Array,

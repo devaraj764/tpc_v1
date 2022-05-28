@@ -1,4 +1,5 @@
 const { response } = require('express');
+const multer = require('multer');
 const express = require('express');
 const Student = require('../model/Student.js');
 const Notification = require('../model/Notification.js');
@@ -6,7 +7,22 @@ const Feedback = require('../model/Feedback.js');
 const router = express.Router();
 const verify = require('./verify-token.js');
 require('dotenv/config');
+const path = require('path')
+const fs = require('fs');
 
+// creating storage emgine
+const storage = new multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname))
+    }
+});
+
+const upload = multer({ storage: storage, limits: { fieldSize: 1024 * 1024 * 2 } })
+
+// routes
 router.get('/', verify, async (req, res) => {
     try {
         const posts = await Student.find();
@@ -27,11 +43,23 @@ router.get('/mydata', verify, async (req, res) => {
 });
 
 //update post
-router.patch('/', verify, async (req, res) => {
-
+router.patch('/', verify, upload.single('image'), async (req, res) => {
+    if (req.body.image) {
+        const user = await Student.findOne({ idNo: req.userid });
+        try {
+            fs.unlinkSync(`.${user.imageUrl}`);
+            console.log("File removed:" + `.${user.imageUrl}`);
+        } catch (err) {
+            console.log("cannot be removed:" + `.${user.imageUrl}`);
+        }
+    }
     try {
         const updatePost = await Student.updateOne({ idNo: req.userid.toUpperCase() },
-            { $set: req.body });
+            {
+                $set: req.file ? {
+                    ...req.body, imageUrl: `/uploads/${req.file.filename}`
+                } : req.body
+            });
         res.status(200).json(updatePost)
     } catch (err) {
         res.status(400).json({ message: err })
