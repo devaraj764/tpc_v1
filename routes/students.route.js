@@ -43,8 +43,9 @@ router.get('/mydata', verify, async (req, res) => {
 });
 
 //update post
-router.patch('/', verify, upload.single('image'), async (req, res) => {
-    if (req.body.image) {
+router.patch('/', verify, upload.single('imageUrl'), async (req, res) => {
+    console.log(req.body)
+    if (req.file) {
         const user = await Student.findOne({ idNo: req.userid });
         try {
             fs.unlinkSync(`.${user.imageUrl}`);
