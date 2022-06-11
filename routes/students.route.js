@@ -44,7 +44,6 @@ router.get('/mydata', verify, async (req, res) => {
 
 //update post
 router.patch('/', verify, upload.single('imageUrl'), async (req, res) => {
-    console.log(req.body)
     if (req.file) {
         const user = await Student.findOne({ idNo: req.userid });
         try {
@@ -95,7 +94,7 @@ router.get('/notifications', verify, async (req, res) => {
     }
 });
 
-// get Notifications
+// post Notifications
 router.post('/notifications', verify, async (req, res) => {
 
     if (!req.userid) return res.status(401).send({ success: false, message: 'Unauthorized Request' });

@@ -21,6 +21,7 @@ app.use('/', cors({
     origin: "*",
     methods: ['GET', 'POST', 'PATCH'],
 }));
+
 app.use('/', auth);
 app.use('/students', studentsRoute);
 
