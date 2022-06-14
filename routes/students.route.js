@@ -1,10 +1,9 @@
-const { response } = require('express');
 const multer = require('multer');
 const express = require('express');
-const Student = require('../model/Student.js');
-const Notification = require('../model/Notification.js');
-const Feedback = require('../model/Feedback.js');
 const router = express.Router();
+const Student = require('../model/Student.js');
+const Feedback = require('../model/Feedback.js');
+const Notification = require('../model/Notification.js');
 const verify = require('./verify-token.js');
 require('dotenv/config');
 const path = require('path')
@@ -83,32 +82,10 @@ router.post('/feedback', verify, async (req, res) => {
 
 
 // get Notifications
-router.get('/notifications', verify, async (req, res) => {
-
-    if (!req.userid) return res.status(401).send({ success: false, message: 'Unauthorized Request' });
+router.get('/notifications', async (req, res) => {
     try {
         const posts = await Notification.find();
         res.status(200).json({ success: true, message: posts });
-    } catch (err) {
-        res.status(400).json({ message: err });
-    }
-});
-
-// post Notifications
-router.post('/notifications', verify, async (req, res) => {
-
-    if (!req.userid) return res.status(401).send({ success: false, message: 'Unauthorized Request' });
-
-    const data = new Notification({
-        type: req.body.type,
-        title: req.body.title,
-        description: req.body.description,
-        externals: req.body.externals ? req.body.externals : undefined
-    });
-
-    try {
-        await data.save();
-        res.status(200).json({ success: true, message: 'Posted successfully' });
     } catch (err) {
         res.status(400).json({ message: err });
     }
