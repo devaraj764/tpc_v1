@@ -31,6 +31,16 @@ router.get('/', verify, async (req, res) => {
     }
 });
 
+// get student by Object ID
+router.get('/view-profile/:ObjId', verify, async (req, res) => {
+    try {
+        const posts = await Student.findOne({ _id: req.params.ObjId });
+        res.status(200).json(posts);
+    } catch (err) {
+        res.status(400).json({ message: err });
+    }
+});
+
 router.get('/mydata', verify, async (req, res) => {
     try {
         const posts = await Student.findOne({ idNo: req.userid });
