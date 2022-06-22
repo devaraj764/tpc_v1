@@ -109,6 +109,10 @@ const StudentSchema = mongoose.Schema({
     links: {
         type: Array,
         default: []
+    },
+    privacy: {
+        type: Boolean,
+        default: true
     }
 },
     { collection: 'students', timestamps: true });
