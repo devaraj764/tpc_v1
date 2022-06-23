@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv/config');
+const verify = require('./routes/verify-token');
 
 
 // running express
@@ -21,11 +22,23 @@ const adminRoute = require('./routes/admin.route.js');
 app.use('/', cors({
     origin: "*",
     methods: ['GET', 'POST', 'PATCH'],
+    headers: {
+        "Bypass-Tunnel-Reminder": "true"
+    }
 }));
 
 app.use('/', auth);
 app.use('/students', studentsRoute);
 app.use('/admin', adminRoute);
+
+// get files
+app.post('/students/get-files', verify, async (req, res) => {
+    try {
+        res.sendFile(__dirname + req.body.filename);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
 
 // Routes
 app.get('/', (req, res) => {
