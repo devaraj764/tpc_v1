@@ -18,7 +18,7 @@ const studentsRoute = require('./routes/students.route.js');
 const adminRoute = require('./routes/admin.route.js');
 
 // middleware
-app.use('/', cors({
+app.use('/students', cors({
     origin: "*",
     methods: ['GET', 'POST', 'PATCH'],
 }));
