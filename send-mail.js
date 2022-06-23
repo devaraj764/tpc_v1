@@ -14,13 +14,12 @@ let mailTransporter = nodemailer.createTransport({
     }
 });
 
-const sendMail = async (email, url) => {
-
+const sendMail = async ({ emails, subject, body }) => {
     let details = {
         from: user,
-        to: email,
-        subject: "Password Reset",
-        html: `<h4>Reset your password</h4><p>Valid only for 10min</p><a href="${url}">Click here</a>`
+        to: emails,
+        subject: subject,
+        html: body
     }
 
     try {

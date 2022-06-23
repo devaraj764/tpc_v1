@@ -5,7 +5,8 @@ const Student = require('../model/Student.js');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const verify = require('./verify-token.js');
-require('dotenv/config')
+require('dotenv/config');
+const sendMail = require('../send-mail');
 
 
 router.post('/login', async (req, res) => {
@@ -38,10 +39,19 @@ router.get('/feedbacks', verify, async (req, res) => {
 
 
 // get Students
-router.get('/getStudents', verify, async (req, res) => {
+router.post('/getStudents', verify, async (req, res) => {
     try {
         if (req.userid === process.env.ADMIN_ID) {
-            const posts = await Student.find();
+            let posts;
+            if (req.body.queryparams && req.body.reqparams) {
+                posts = await Student.find(req.body.queryparams).select(req.body.reqparams)
+            } else if (req.body.queryparams) {
+                posts = await Student.find(req.body.queryparams)
+            } else if (req.body.reqparams) {
+                posts = await Student.find().select(req.body.reqparams)
+            } else {
+                posts = await Student.find()
+            }
             res.status(200).json(posts);
         } else {
             res.status(401).json({ success: false, message: "unauthorized" })
@@ -50,6 +60,24 @@ router.get('/getStudents', verify, async (req, res) => {
         res.status(400).json({ message: err });
     }
 });
+
+// send emails
+router.post('/sendmail', verify, async (req, res) => {
+    const emails = req.body.emails;
+    const subject = req.body.subject;
+    const body = req.body.html;
+
+    try {
+        if (req.userid === process.env.ADMIN_ID) {
+            await sendMail({ emails, subject, body})
+            res.status(200).send("Mail sent successfully")
+        } else {
+            res.status(401).json({ success: false, message: "unauthorized" })
+        }
+    } catch (err) {
+        res.status(400).json({ message: err });
+    }
+})
 
 // post Notifications
 router.post('/notifications', verify, async (req, res) => {

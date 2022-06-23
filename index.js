@@ -21,10 +21,7 @@ const adminRoute = require('./routes/admin.route.js');
 // middleware
 app.use('/', cors({
     origin: "*",
-    methods: ['GET', 'POST', 'PATCH'],
-    headers: {
-        "Bypass-Tunnel-Reminder": "true"
-    }
+    methods: ['GET', 'POST', 'PATCH']
 }));
 
 app.use('/', auth);
