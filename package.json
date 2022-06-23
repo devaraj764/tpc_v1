@@ -1,0 +1,40 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon run index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "heroku": "^7.60.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.6.0",
+    "mongoose": "^6.3.2",
+    "multer": "^1.4.4",
+    "nodemailer": "^6.7.5",
+    "touch": "^3.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devaraj764/tpc_v1.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devaraj764/tpc_v1/issues"
+  },
+  "homepage": "https://github.com/devaraj764/tpc_v1#readme",
+  "description": ""
+}
