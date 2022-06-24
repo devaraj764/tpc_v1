@@ -65,7 +65,9 @@ router.post('/forgot-password', async (req, res) => {
     if (isUser) {
         const secret = process.env.TOKEN_SECRET + isUser.password;
         const token = jwt.sign({ idNo: isUser.idNo }, secret, { expiresIn: '10m' });
-        const mail = sendMail(isUser.email, `${URI}/reset-password/${isUser.idNo}/${token}`);
+        const uri = `${URI}/reset-password/${isUser.idNo}/${token}`;
+        const html = `<h4>Reset your password</h4><p>Valid only for 10min</p><a href="${uri}">Click here</a>`
+        const mail = sendMail({emails: isUser.email, subject:'Password reset', body: html});
         if (mail) {
             res.status(200).send({ success: true, message: 'Check your registered mail' });
         } else {

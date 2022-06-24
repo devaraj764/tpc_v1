@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv/config');
+const verify = require('./routes/verify-token');
 
 
 // running express
@@ -20,7 +21,7 @@ const adminRoute = require('./routes/admin.route.js');
 // middleware
 app.use('/', cors({
     origin: "*",
-    methods: ['GET', 'POST', 'PATCH'],
+    methods: ['GET', 'POST', 'PATCH']
 }));
 
 app.use('/', auth);
