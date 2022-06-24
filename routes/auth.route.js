@@ -4,10 +4,11 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Student = require('../model/Student.js');
 const router = express.Router();
-const sendMail = require('../send-mail.js')
+const sendMail = require('../send-mail.js');
+require('dotenv/config');
 
 // URI
-const URI = 'https://tpc-api.loca.lt';
+const URI = process.env.TUNNEL_URL;
 
 // VALIDATION SCHEMA
 const schema = Student;
