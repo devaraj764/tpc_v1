@@ -28,15 +28,6 @@ app.use('/', auth);
 app.use('/students', studentsRoute);
 app.use('/admin', adminRoute);
 
-// get files
-app.post('/students/get-files', verify, async (req, res) => {
-    try {
-        res.sendFile(__dirname + req.body.filename);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-});
-
 // Routes
 app.get('/', (req, res) => {
     res.json("Hello world!!!");

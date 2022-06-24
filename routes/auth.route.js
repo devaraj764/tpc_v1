@@ -7,7 +7,7 @@ const router = express.Router();
 const sendMail = require('../send-mail.js')
 
 // URI
-const URI = 'https://tpc-api-v1.loca.lt';
+const URI = 'https://tpc-api.loca.lt';
 
 // VALIDATION SCHEMA
 const schema = Student;
