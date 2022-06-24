@@ -3,7 +3,7 @@ require('dotenv/config');
 
 
 const user = 'cseplacements@rguktsklm.ac.in';
-const pass = 'ipruibrnycbzxqnt';
+const pass = process.env.MAIL_PASSWORD;
 
 let mailTransporter = nodemailer.createTransport({
     service: 'gmail',
