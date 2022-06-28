@@ -94,7 +94,7 @@ router.post('/feedback', verify, async (req, res) => {
 // get Notifications
 router.get('/notifications', async (req, res) => {
     try {
-        const posts = await Notification.find();
+        const posts = await Notification.find().sort({createdAt: -1});
         res.status(200).json({ success: true, message: posts });
     } catch (err) {
         res.status(400).json({ message: err });

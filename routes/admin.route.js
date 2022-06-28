@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
 router.get('/feedbacks', verify, async (req, res) => {
     try {
         if (req.userid === process.env.ADMIN_ID) {
-            const posts = await Feedback.find();
+            const posts = await Feedback.find().sort({createdAt: -1});
             res.status(200).json(posts);
         } else {
             res.status(401).json({ success: false, message: "unauthorized" })
