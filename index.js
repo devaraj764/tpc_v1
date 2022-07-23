@@ -17,6 +17,7 @@ app.set('view engine', 'ejs');
 const auth = require('./routes/auth.route.js');
 const studentsRoute = require('./routes/students.route.js');
 const adminRoute = require('./routes/admin.route.js');
+const aluminiRoute = require('./routes/alumini.route.js');
 
 // middleware
 app.use('/', cors({
@@ -27,6 +28,7 @@ app.use('/', cors({
 app.use('/', auth);
 app.use('/students', studentsRoute);
 app.use('/admin', adminRoute);
+app.use('/alumini', aluminiRoute);
 
 // Routes
 app.get('/', (req, res) => {
